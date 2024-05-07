@@ -37,6 +37,10 @@ public class AnimationSystem extends IteratingSystem {
         this.gameState = gameState;
     }
 
+    public ComponentMapper<AnimationComponent> getAm() {
+        return am;
+    }
+
     @Override
     public void update(float deltaTime) {
         if (gameState.interactionOverlay != null) {
