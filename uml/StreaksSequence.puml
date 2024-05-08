@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+Interactable_i -> GameState: Update total count
+GameState -> ScoreCalc: Pass achievement\ncount hashmap
+ScoreCalc -> ScoreCalc: Calculate achievements
+ScoreCalc -> ScoreCalc: Add achievements to score
+ScoreCalc -> EndScreen: Pass score and\nachievements
+EndScreen <- EndScreen: Display score and\nachievements
+@enduml
