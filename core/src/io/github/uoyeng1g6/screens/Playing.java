@@ -332,9 +332,9 @@ public class Playing implements Screen {
         var popcornIcon = game.interactionIconsTextureAtlas.findRegion("popcorn_icon");
         var recreation = engine.createEntity()
                 .add(new TextureComponent(popcornIcon, iconSize).show())
-                .add(new PositionComponent(19, 60.5f))
+                .add(new PositionComponent(24, 60.5f))
                 .add(new HitboxComponent(new Rectangle(
-                        19, 60.5f, popcornIcon.getRegionWidth() * iconSize, popcornIcon.getRegionHeight() * iconSize)))
+                        24, 60.5f, popcornIcon.getRegionWidth() * iconSize, popcornIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
                     if (!state.doActivity(2, 14, ActivityType.RECREATION, "Watching films...", "movie")) {
                         // Notify insufficient time/energy
@@ -345,10 +345,10 @@ public class Playing implements Screen {
         var footballIcon = game.interactionIconsTextureAtlas.findRegion("football_icon");
         var sports = engine.createEntity()
                 .add(new TextureComponent(footballIcon, iconSize).show())
-                .add(new PositionComponent(65.5f, 57.5f))
+                .add(new PositionComponent(71.5f, 47))
                 .add(new HitboxComponent(new Rectangle(
-                        65.5f,
-                        57.5f,
+                        71.5f,
+                        47,
                         footballIcon.getRegionWidth() * iconSize,
                         footballIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
@@ -387,9 +387,9 @@ public class Playing implements Screen {
         var busIcon = game.interactionIconsTextureAtlas.findRegion("bus_icon");
         var town = engine.createEntity()
                 .add(new TextureComponent(busIcon, iconSize).show())
-                .add(new PositionComponent(12, 60.5f))
+                .add(new PositionComponent(17, 60.5f))
                 .add(new HitboxComponent(new Rectangle(
-                        12, 60.5f, busIcon.getRegionWidth() * iconSize, busIcon.getRegionHeight() * iconSize)))
+                        17, 60.5f, busIcon.getRegionWidth() * iconSize, busIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
                     if (!state.doActivity(1, 7, ActivityType.RECREATION, "Travelling...", "town")) {
                         // Notify insufficient time/energy
