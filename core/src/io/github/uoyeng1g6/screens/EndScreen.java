@@ -111,7 +111,7 @@ public class EndScreen implements Screen {
                 inner.add("You didn't miss an activity on any day but should try to complete more");
                 inner.row();
             }
-        }else {
+        } else {
             inner.add("Achievements").padBottom(20);
             inner.row();
             if (achievements.get(0)) {

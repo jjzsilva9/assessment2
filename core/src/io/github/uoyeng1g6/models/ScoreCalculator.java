@@ -1,7 +1,6 @@
 package io.github.uoyeng1g6.models;
 
 import io.github.uoyeng1g6.constants.ActivityType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -156,13 +155,13 @@ public class ScoreCalculator {
 
         // Failure : You missed a day of study without catching up
 
-        //Val for ensuring catchup can only happen once
+        // Val for ensuring catchup can only happen once
         boolean failedStudyOnce = false;
 
-        //Val for when they have missed one day of study but not 2 (and not caught up yet)
+        // Val for when they have missed one day of study but not 2 (and not caught up yet)
         boolean studyFailCheck = false;
 
-        //Val for when they have failed due to missing a day and not catching up the next day
+        // Val for when they have failed due to missing a day and not catching up the next day
         boolean studyFailure = false;
 
         for (var day : days) {
