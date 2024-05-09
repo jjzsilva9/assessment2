@@ -1,263 +1,263 @@
 player.png
-size: 256, 240
+size: 832, 2432
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 stationary
   rotate: false
-  xy: 0, 0
+  xy: 16, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 0
 walk_down
   rotate: false
-  xy: 32, 0
+  xy: 80, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 0
 walk_down
   rotate: false
-  xy: 64, 0
+  xy: 80, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 1
 walk_down
   rotate: false
-  xy: 96, 0
+  xy: 144, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 2
 walk_down
   rotate: false
-  xy: 128, 0
+  xy: 208, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 3
 walk_down
   rotate: false
-  xy: 160, 0
+  xy: 272, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 4
 walk_down
   rotate: false
-  xy: 192, 0
+  xy: 336, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 5
 walk_down
   rotate: false
-  xy: 224, 0
+  xy: 400, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 6
 walk_down
   rotate: false
-  xy: 0, 48
+  xy: 464, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 7
 walk_down
   rotate: false
-  xy: 32, 48
+  xy: 528, 655
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 8
 walk_left
   rotate: false
-  xy: 64, 48
+  xy: 16, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 0
 walk_left
   rotate: false
-  xy: 96, 48
+  xy: 80, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 1
 walk_left
   rotate: false
-  xy: 128, 48
+  xy: 144, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 2
 walk_left
   rotate: false
-  xy: 160, 48
+  xy: 208, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 3
 walk_left
   rotate: false
-  xy: 192, 48
+  xy: 272, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 4
 walk_left
   rotate: false
-  xy: 224, 48
+  xy: 336, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 5
 walk_left
   rotate: false
-  xy: 0, 96
+  xy: 400, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 6
 walk_left
   rotate: false
-  xy: 32, 96
+  xy: 464, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 7
 walk_left
   rotate: false
-  xy: 64, 96
+  xy: 528, 591
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 8
 walk_right
   rotate: false
-  xy: 96, 96
+  xy: 16, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 0
 walk_right
   rotate: false
-  xy: 128, 96
+  xy: 80, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 1
 walk_right
   rotate: false
-  xy: 160, 96
+  xy: 144, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 2
 walk_right
   rotate: false
-  xy: 192, 96
+  xy: 208, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 3
 walk_right
   rotate: false
-  xy: 224, 96
+  xy: 272, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 4
 walk_right
   rotate: false
-  xy: 0, 144
+  xy: 336, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 5
 walk_right
   rotate: false
-  xy: 32, 144
+  xy: 400, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 6
 walk_right
   rotate: false
-  xy: 64, 144
+  xy: 464, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 7
 walk_right
   rotate: false
-  xy: 96, 144
+  xy: 528, 719
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 8
 walk_up
   rotate: false
-  xy: 128, 144
+  xy: 80, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 0
 walk_up
   rotate: false
-  xy: 160, 144
+  xy: 80, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 1
 walk_up
   rotate: false
-  xy: 192, 144
+  xy: 144, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 2
 walk_up
   rotate: false
-  xy: 224, 144
+  xy: 208, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 3
 walk_up
   rotate: false
-  xy: 0, 192
+  xy: 272, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 4
 walk_up
   rotate: false
-  xy: 32, 192
+  xy: 336, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 5
 walk_up
   rotate: false
-  xy: 64, 192
+  xy: 400, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 6
 walk_up
   rotate: false
-  xy: 96, 192
+  xy: 464, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
   index: 7
 walk_up
   rotate: false
-  xy: 128, 192
+  xy: 528, 527
   size: 32, 48
   orig: 32, 48
   offset: 0, 0

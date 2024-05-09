@@ -30,4 +30,9 @@ public class AssetTests {
     public void testTerrainAssetExists() {
         assertTrue("The asset for the terrain exists", Gdx.files.internal("../assets/terrain.json").exists());
     }
+
+    @Test
+    public void testWhitePixelAssetExists() {
+        assertTrue("The asset for the white pixel exists", Gdx.files.internal("../assets/white_pixel.png").exists());
+    }
 }

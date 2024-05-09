@@ -43,10 +43,11 @@ public class GameStateTest {
         int energyToUse = 10;
         ActivityType activityType = ActivityType.MEAL;
         String overlayText = "Text";
+        String activityName = "food";
         int beforeEnergy = gameState.energyRemaining;
         int beforeHoursRemaining = gameState.hoursRemaining;
         GameState.Day currentDay = gameState.currentDay;
-        boolean result = gameState.doActivity(timeToUse, energyToUse, activityType, overlayText);
+        boolean result = gameState.doActivity(timeToUse, energyToUse, activityType, overlayText, activityName);
         //Test that activity completes and that values are as expected after completion
         assertTrue(result);
         assertEquals(beforeEnergy - energyToUse, gameState.energyRemaining);
@@ -55,7 +56,7 @@ public class GameStateTest {
         assertEquals(currentDay, gameState.currentDay);
         //Test that activity completion fails when energy is insufficient
         gameState.energyRemaining = 5;
-        boolean result2 = gameState.doActivity(timeToUse, energyToUse, activityType, overlayText);
+        boolean result2 = gameState.doActivity(timeToUse, energyToUse, activityType, overlayText, activityName);
         assertFalse(result2);
     }
 
@@ -67,7 +68,7 @@ public class GameStateTest {
         GameState gameState = new GameState();
         for(ActivityType activityType : ActivityType.values()) {
             assertEquals(0, gameState.getTotalActivityCount(activityType));
-            gameState.doActivity(1, 10, activityType, "test");
+            gameState.doActivity(1, 10, activityType, "test", "test");
             assertEquals(1, gameState.getTotalActivityCount(activityType));
         }
     }

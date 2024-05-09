@@ -155,6 +155,10 @@ public class HeslingtonHustle extends Game {
     public void setState(State state) {
         switch (state) {
             case MAIN_MENU:
+                if (mainMenu != null) {
+                    mainMenu.dispose();
+                }
+                mainMenu = new MainMenu(this);
                 this.setScreen(mainMenu);
                 break;
             case PLAYING:

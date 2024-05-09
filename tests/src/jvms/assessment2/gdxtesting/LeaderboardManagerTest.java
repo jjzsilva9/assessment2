@@ -192,4 +192,12 @@ public class LeaderboardManagerTest {
 
         assertEquals("Name should be reset after an entry is added", "Unknown", lm.getName());
     }
+
+    @Test
+    public void testLeaderboardNameValidation() {
+        LeaderboardManager lm = new LeaderboardManager("test.txt");
+        lm.saveName("toolongnamenow");
+
+        assertEquals("Name should be trimmed to 11 characters", "toolongname", lm.getName());
+    }
 }

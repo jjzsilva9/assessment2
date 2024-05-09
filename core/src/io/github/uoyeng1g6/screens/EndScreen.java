@@ -14,6 +14,7 @@ import io.github.uoyeng1g6.HeslingtonHustle;
 import io.github.uoyeng1g6.constants.ActivityType;
 import io.github.uoyeng1g6.constants.GameConstants;
 import io.github.uoyeng1g6.models.GameState;
+import io.github.uoyeng1g6.models.ScoreCalculator;
 import io.github.uoyeng1g6.utils.ChangeListener;
 import java.util.List;
 
@@ -21,22 +22,14 @@ import java.util.List;
  * The end screen of the game. Displays the player's score and the total number done of each activity.
  */
 public class EndScreen implements Screen {
-    /**
-     * Theoretical maximum day score. Allows normalising to range 0-100.
-     */
-    private static final float MAX_DAY_SCORE = 105.125f;
-    /**
-     * Theoretical minimum day score. Allows normalising to range 0-100.
-     */
-    private static final float MIN_DAY_SCORE = 0f;
-
-    private int examScore;
 
     Camera camera;
     /**
      * The {@code scene2d.ui} stage used to render this screen.
      */
     Stage stage;
+
+    int examScore;
 
     public EndScreen(HeslingtonHustle game, GameState endGameState) {
         camera = new OrthographicCamera();
@@ -57,15 +50,46 @@ public class EndScreen implements Screen {
 
         var inner = new Table(game.skin);
 
-        inner.add(String.format("Exam Score: %.0f / 100", calculateExamScore(endGameState.days)))
-                .padBottom(50);
+        examScore = ScoreCalculator.calculateExamScore(endGameState.days);
+
+        inner.add(String.format("Exam Score: %d / 100", examScore)).padBottom(50);
         inner.row();
         inner.add("Times Studied: " + endGameState.getTotalActivityCount(ActivityType.STUDY));
         inner.row();
         inner.add("Meals Eaten: " + endGameState.getTotalActivityCount(ActivityType.MEAL));
         inner.row();
-        inner.add("Recreational Activities Done: " + endGameState.getTotalActivityCount(ActivityType.RECREATION));
+        inner.add("Recreational Activities Done: " + endGameState.getTotalActivityCount(ActivityType.RECREATION))
+                .padBottom(50);
         inner.row();
+        inner.row();
+        List<Boolean> achievements = ScoreCalculator.calculateAchievements(endGameState.days);
+
+        // If failed due to not catching up study, replace achievements section with failure
+        if (achievements.get(3)) {
+            inner.add("Failed").padBottom(20);
+            inner.row();
+            inner.add("You missed a day of study and didn't catch up :(");
+            inner.row();
+        } else {
+            inner.add("Achievements").padBottom(20);
+            inner.row();
+            if (achievements.get(0)) {
+                inner.add("Movie Marathon: Watch at least 3 movies in a single day +5");
+                inner.row();
+            }
+            if (achievements.get(1)) {
+                inner.add("You really went to town on that...: Go to town at least 5 times in a single day +5");
+                inner.row();
+            }
+            if (achievements.get(2)) {
+                inner.add("Gymbro: Go to the gym at least once a day, every day +5");
+                inner.row();
+            }
+            if (!(achievements.get(0) || achievements.get(1) || achievements.get(2))) {
+                inner.add("You found no achievements.");
+                inner.row();
+            }
+        }
 
         var nextButton = new TextButton("Next", game.skin);
         nextButton.addListener(ChangeListener.of((e, a) -> game.setState(HeslingtonHustle.State.PLAYER_NAME_INPUT)));
@@ -77,67 +101,6 @@ public class EndScreen implements Screen {
         inner.row();
 
         root.add(inner).grow();
-    }
-
-    /**
-     * Calculate the score for a given day based on the number of activities performed. The optimal score
-     * is given by studying 5 times, eating 3 times, and doing a recreational activity 3 times.
-     *
-     * @param studyCount the number of times the player studied during the day.
-     * @param mealCount the number of times the player ate during the day.
-     * @param recreationCount the number of recreational activities done by the player during the day.
-     * @return the computed score given the activity counts.
-     */
-    float getDayScore(int studyCount, int mealCount, int recreationCount) {
-        var studyPoints = 0;
-        for (int i = 1; i <= studyCount; i++) {
-            studyPoints += i <= 5 ? 10 : -5;
-        }
-        studyPoints = Math.max(0, studyPoints);
-
-        // Calculate meal multiplier
-        float mealMultiplier = 1;
-        for (var i = 1; i <= mealCount; i++) {
-            mealMultiplier += i <= 3 ? 0.15f : -0.025f;
-        }
-        mealMultiplier = Math.max(1, mealMultiplier);
-
-        // Calculate recreation multiplier
-        float recreationMultiplier = 1;
-        for (var i = 1; i <= recreationCount; i++) {
-            recreationMultiplier += i <= 3 ? 0.15f : -0.025f;
-        }
-        recreationMultiplier = Math.max(1, recreationMultiplier);
-
-        // Calculate day score
-        return studyPoints * mealMultiplier * recreationMultiplier;
-    }
-
-    /**
-     * Calculate the aggregate score of all the days.
-     *
-     * @param days the days to calculate the score for.
-     * @return the computed game score.
-     */
-    float calculateExamScore(List<GameState.Day> days) {
-        float totalScore = 0;
-
-        for (var day : days) {
-            int studyCount = day.statFor(ActivityType.STUDY);
-            int mealCount = day.statFor(ActivityType.MEAL);
-            int recreationCount = day.statFor(ActivityType.RECREATION);
-
-            var dayScore = getDayScore(studyCount, mealCount, recreationCount);
-            // Normalise day score between 0 and 100, round up to nearest whole number
-            var normalisedDayScore = Math.ceil(((dayScore - MIN_DAY_SCORE) * 100) / (MAX_DAY_SCORE - MIN_DAY_SCORE));
-
-            // Increase total score
-            totalScore += (float) (normalisedDayScore * (1 / 7f));
-        }
-
-        // Clamp total score from 0-100
-        examScore = Math.round(Math.min(100, Math.max(0, totalScore)));
-        return examScore;
     }
 
     public int getExamScore() {

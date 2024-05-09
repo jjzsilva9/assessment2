@@ -298,7 +298,7 @@ public class Playing implements Screen {
                 .add(new HitboxComponent(new Rectangle(
                         25, 14, studyIcon.getRegionWidth() * iconSize, studyIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(1, 6, ActivityType.STUDY, "Studying...")) {
+                    if (!state.doActivity(1, 6, ActivityType.STUDY, "Studying...", "cs")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -310,7 +310,7 @@ public class Playing implements Screen {
                 .add(new HitboxComponent(new Rectangle(
                         72.5f, 21.5f, studyIcon.getRegionWidth() * iconSize, studyIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(1, 6, ActivityType.STUDY, "Studying...")) {
+                    if (!state.doActivity(1, 6, ActivityType.STUDY, "Studying...", "library")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -323,7 +323,7 @@ public class Playing implements Screen {
                 .add(new HitboxComponent(new Rectangle(
                         54, 2.5f, foodIcon.getRegionWidth() * iconSize, foodIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(1, 5, ActivityType.MEAL, "Eating...")) {
+                    if (!state.doActivity(1, 5, ActivityType.MEAL, "Eating...", "food")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -336,7 +336,7 @@ public class Playing implements Screen {
                 .add(new HitboxComponent(new Rectangle(
                         19, 60.5f, popcornIcon.getRegionWidth() * iconSize, popcornIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(2, 14, ActivityType.RECREATION, "Watching films...")) {
+                    if (!state.doActivity(2, 14, ActivityType.RECREATION, "Watching films...", "movie")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -352,7 +352,7 @@ public class Playing implements Screen {
                         footballIcon.getRegionWidth() * iconSize,
                         footballIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(2, 16, ActivityType.RECREATION, "Playing sports...")) {
+                    if (!state.doActivity(2, 16, ActivityType.RECREATION, "Playing sports...", "sports")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -365,7 +365,7 @@ public class Playing implements Screen {
                 .add(new HitboxComponent(new Rectangle(
                         33.5f, 5.5f, gooseIcon.getRegionWidth() * iconSize, gooseIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(1, 6, ActivityType.RECREATION, "Feeding ducks...")) {
+                    if (!state.doActivity(1, 6, ActivityType.RECREATION, "Feeding ducks...", "ducks")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -378,7 +378,7 @@ public class Playing implements Screen {
                 .add(new HitboxComponent(new Rectangle(
                         40.5f, 27.5f, sofaIcon.getRegionWidth() * iconSize, sofaIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(1, 6, ActivityType.RECREATION, "Relaxing...")) {
+                    if (!state.doActivity(1, 6, ActivityType.RECREATION, "Relaxing...", "chill")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -391,7 +391,7 @@ public class Playing implements Screen {
                 .add(new HitboxComponent(new Rectangle(
                         12, 60.5f, busIcon.getRegionWidth() * iconSize, busIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(1, 7, ActivityType.RECREATION, "Travelling...")) {
+                    if (!state.doActivity(1, 7, ActivityType.RECREATION, "Travelling...", "town")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -403,7 +403,7 @@ public class Playing implements Screen {
                 .add(new HitboxComponent(new Rectangle(
                         60.5f, 19.5f, sofaIcon.getRegionWidth() * iconSize, sofaIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(1, 5, ActivityType.RECREATION, "Socialising...")) {
+                    if (!state.doActivity(1, 5, ActivityType.RECREATION, "Socialising...", "society")) {
                         // Notify insufficient time/energy
                     }
                 }))
@@ -505,7 +505,9 @@ public class Playing implements Screen {
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+    }
 
     @Override
     public void pause() {}

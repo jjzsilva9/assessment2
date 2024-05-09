@@ -1,16 +1,16 @@
 # Heslington Hustle
 
-Assessment1 implementation of the "Heslington Hustle" game outlined by the brief.
+Assessment 2 implementation of "Heslington Hustle" by Group 2 (The JVMs).
 
 ## Running the game
 
-Download the jar for the latest version from the [releases page](https://github.com/uoy-eng1-g6/assessment1/releases).
+Download the jar for the latest version from the [releases page](https://jjzsilva9.github.io/uoy-eng1-g2.github.io/releases).
 
 Alternatively you can clone the repository and build a jar yourself with the following commands:
 
 ```shell
-git clone https://github.com/uoy-eng1-g6/assessment1.git
-cd assessment1
+git clone https://github.com/jjzsilva9/assessment2.git
+cd assessment2
 ./gradlew desktop:dist
 ```
 

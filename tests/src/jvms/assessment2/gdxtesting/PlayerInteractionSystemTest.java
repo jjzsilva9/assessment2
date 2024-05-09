@@ -56,7 +56,7 @@ public class PlayerInteractionSystemTest {
                 .add(new HitboxComponent(new Rectangle(
                         54, 2.5f, 10f, 10f)))
                 .add(new InteractionComponent(state -> {
-                    if (!state.doActivity(1, 5, ActivityType.MEAL, "Eating...")) {
+                    if (!state.doActivity(1, 5, ActivityType.MEAL, "Eating...", "food")) {
                         // Notify insufficient time/energy
                     }
                 }));
@@ -76,11 +76,11 @@ public class PlayerInteractionSystemTest {
         engine.addSystem(new PlayerInteractionSystem(gameState));
 
         //Test the system has successfully found the player entity.
-        assertEquals(playerEntity, engine.getSystem(PlayerInteractionSystem.class).getPlayerEntity());
+        assertEquals("Interaction System found player entity", playerEntity, engine.getSystem(PlayerInteractionSystem.class).getPlayerEntity());
 
-        //Test the array Interactables contains the correct Entities
+        //Test the array Interactables contains the correct Entities.
         assertEquals(1, engine.getSystem(PlayerInteractionSystem.class).getInteractables().size());
-        assertEquals(interactableEntity, engine.getSystem(PlayerInteractionSystem.class).getInteractables().get(0));
+        assertEquals("Interactables contains the correct Entities", interactableEntity, engine.getSystem(PlayerInteractionSystem.class).getInteractables().get(0));
     }
 
 
