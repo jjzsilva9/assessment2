@@ -73,19 +73,19 @@ public class PlayerInputSystem extends EntitySystem {
         boolean left, right, up, down;
         left = right = up = down = false;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             velocity.x = -PlayerConstants.PLAYER_SPEED;
             left = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             velocity.x = PlayerConstants.PLAYER_SPEED;
             right = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             velocity.y = PlayerConstants.PLAYER_SPEED;
             up = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             velocity.y = -PlayerConstants.PLAYER_SPEED;
             down = true;
         }
