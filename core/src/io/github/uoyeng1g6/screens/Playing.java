@@ -167,9 +167,9 @@ public class Playing implements Screen {
         stage.addActor(energy);
 
         var energyLabel = new Label("Energy Remaining:", labelStyle);
-        energyLabel.setFontScale(0.08f);
+        energyLabel.setFontScale(0.125f);
         var energyAmount = new Label(String.valueOf(GameConstants.MAX_ENERGY), labelStyle);
-        energyAmount.setFontScale(0.15f);
+        energyAmount.setFontScale(0.2f);
 
         energy.top().left();
         energy.add(energyLabel);
@@ -231,7 +231,7 @@ public class Playing implements Screen {
                         state -> String.valueOf(state.getTotalActivityCount(ActivityType.RECREATION)))));
 
         engine.addEntity(engine.createEntity()
-                .add(new CounterComponent(energyAmount, state -> String.valueOf(state.energyRemaining))));
+                .add(new CounterComponent(energyAmount, state -> String.valueOf(state.energyRemaining) + "%")));
 
         engine.addSystem(new PlayerInputSystem(gameState));
         engine.addSystem(new PlayerInteractionSystem(gameState));

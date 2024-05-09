@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ScoreCalculator {
 
-    private static final float MAX_DAY_SCORE = 105.125f;
+    private static final float MAX_DAY_SCORE = 168f;
     /**
      * Theoretical minimum day score. Allows normalising to range 0-100.
      */
@@ -26,24 +26,30 @@ public class ScoreCalculator {
         for (int i = 1; i <= studyCount; i++) {
             studyPoints += i <= 8 ? 10 : -5;
         }
-        studyPoints = Math.max(0, studyPoints);
+        if (studyCount == 0) {
+            studyPoints = -10;
+        }
 
         // Calculate meal multiplier
-        float mealMultiplier = 1;
+        var mealPoints = 0;
         for (var i = 1; i <= mealCount; i++) {
-            mealMultiplier += i <= 3 ? 0.15f : -0.025f;
+            mealPoints += i <= 3 ? 16 : -5;
         }
-        mealMultiplier = Math.max(1, mealMultiplier);
+        if (mealCount == 0) {
+            mealPoints = -5;
+        }
 
         // Calculate recreation multiplier
-        float recreationMultiplier = 1;
+        var recreationPoints = 0;
         for (var i = 1; i <= recreationCount; i++) {
-            recreationMultiplier += i <= 5 ? 0.15f : -0.025f;
+            recreationPoints += i <= 5 ? 8 : 4;
         }
-        recreationMultiplier = Math.max(1, recreationMultiplier);
+        if (recreationPoints == 0) {
+            recreationPoints = -5;
+        }
 
         // Calculate day score
-        return studyPoints * mealMultiplier * recreationMultiplier;
+        return studyPoints + mealPoints + recreationPoints;
     }
 
     /**
