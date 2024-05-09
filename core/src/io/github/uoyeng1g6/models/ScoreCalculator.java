@@ -1,6 +1,8 @@
 package io.github.uoyeng1g6.models;
 
 import io.github.uoyeng1g6.constants.ActivityType;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class ScoreCalculator {
             studyPoints += i <= 8 ? 10 : -5;
         }
         if (studyCount == 0) {
-            studyPoints = -10;
+            studyPoints = -75;
         }
 
         // Calculate meal multiplier
@@ -36,7 +38,7 @@ public class ScoreCalculator {
             mealPoints += i <= 3 ? 16 : -5;
         }
         if (mealCount == 0) {
-            mealPoints = -5;
+            mealPoints = -50;
         }
 
         // Calculate recreation multiplier
@@ -45,7 +47,7 @@ public class ScoreCalculator {
             recreationPoints += i <= 5 ? 8 : 4;
         }
         if (recreationPoints == 0) {
-            recreationPoints = -5;
+            recreationPoints = -30;
         }
 
         // Calculate day score
@@ -60,15 +62,31 @@ public class ScoreCalculator {
      */
     public static int calculateExamScore(List<GameState.Day> days) {
         float totalScore = 0;
-
+        List<ActivityType[]> missedActivities = new ArrayList<ActivityType[]>();
+        int dayCount = 0;
         for (var day : days) {
             int studyCount = day.statFor(ActivityType.STUDY);
             int mealCount = day.statFor(ActivityType.MEAL);
             int recreationCount = day.statFor(ActivityType.RECREATION);
 
+            ActivityType[] dayType = new ActivityType[3];
+            if (studyCount == 0) {
+                dayType[0] = ActivityType.STUDY;
+            }
+            if (mealCount == 0) {
+
+                dayType[1] = ActivityType.MEAL;
+            }
+            if (recreationCount == 0) {
+                dayType[2] = ActivityType.RECREATION;
+            }
+
             var dayScore = getDayScore(studyCount, mealCount, recreationCount);
             // Normalise day score between 0 and 100, round up to nearest whole number
             var normalisedDayScore = Math.ceil(((dayScore - MIN_DAY_SCORE) * 100) / (MAX_DAY_SCORE - MIN_DAY_SCORE));
+            System.out.println(normalisedDayScore);
+            System.out.println(dayScore);
+            System.out.println("---");
 
             // Increase total score
             totalScore += (float) (normalisedDayScore * (1 / 7f));
@@ -98,6 +116,29 @@ public class ScoreCalculator {
         // Clamp total score from 0-100
         int examScore = Math.round(Math.min(100, Math.max(0, totalScore)));
         return examScore;
+    }
+
+    public static List<ActivityType[]> calculateMissedDays(List<GameState.Day> days) {
+        List<ActivityType[]> missedActivities = new ArrayList<ActivityType[]>();
+        int dayCount = 0;
+        for (var day : days) {
+            int studyCount = day.statFor(ActivityType.STUDY);
+            int mealCount = day.statFor(ActivityType.MEAL);
+            int recreationCount = day.statFor(ActivityType.RECREATION);
+
+            ActivityType[] dayType = new ActivityType[3];
+            if (studyCount == 0) {
+                dayType[0] = ActivityType.STUDY;
+            }
+            if (mealCount == 0) {
+
+                dayType[1] = ActivityType.MEAL;
+            }
+            if (recreationCount == 0) {
+                dayType[2] = ActivityType.RECREATION;
+            }
+        }
+        return missedActivities;
     }
 
     public static List<Boolean> calculateAchievements(List<GameState.Day> days) {
