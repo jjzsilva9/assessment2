@@ -68,9 +68,50 @@ public class EndScreen implements Screen {
         if (achievements.get(3)) {
             inner.add("Failed").padBottom(20);
             inner.row();
-            inner.add("You missed a day of study and didn't catch up :(");
+            inner.add("You missed a day of study and didn't catch up the next day :(");
             inner.row();
-        } else {
+        } else if (examScore < 40) {
+            inner.add("Failed").padBottom(20);
+            inner.row();
+            String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+            int dayCount = 0;
+            boolean missedActivity = false;
+            for (var day : ScoreCalculator.calculateMissedDays(endGameState.days)) {
+                String dayMessage = null;
+                for (var activity : day) {
+                    if (activity != null) {
+                        if (dayMessage != null) {
+                            if (activity == ActivityType.MEAL) {
+                                dayMessage += ", eating";
+                            } else if (activity == ActivityType.STUDY) {
+                                dayMessage += ", studying";
+                            } else {
+                                dayMessage += ", relaxing";
+                            }
+                        } else {
+                            dayMessage = "On " + days[dayCount] + " you missed: ";
+                            if (activity == ActivityType.MEAL) {
+                                dayMessage += "eating";
+                            } else if (activity == ActivityType.STUDY) {
+                                dayMessage += "studying";
+                            } else {
+                                dayMessage += "relaxing";
+                            }
+                        }
+                    }
+                }
+                if (dayMessage != null) {
+                    missedActivity = true;
+                    inner.add(dayMessage);
+                    inner.row();
+                }
+                dayCount++;
+            }
+            if (!missedActivity) {
+                inner.add("You didn't miss an activity on any day but should try to complete more");
+                inner.row();
+            }
+        }else {
             inner.add("Achievements").padBottom(20);
             inner.row();
             if (achievements.get(0)) {

@@ -137,6 +137,8 @@ public class ScoreCalculator {
             if (recreationCount == 0) {
                 dayType[2] = ActivityType.RECREATION;
             }
+            missedActivities.add(dayType);
+            dayCount++;
         }
         return missedActivities;
     }
@@ -153,7 +155,14 @@ public class ScoreCalculator {
         boolean sportAchievement = true;
 
         // Failure : You missed a day of study without catching up
+
+        //Val for ensuring catchup can only happen once
+        boolean failedStudyOnce = false;
+
+        //Val for when they have missed one day of study but not 2 (and not caught up yet)
         boolean studyFailCheck = false;
+
+        //Val for when they have failed due to missing a day and not catching up the next day
         boolean studyFailure = false;
 
         for (var day : days) {
@@ -169,8 +178,14 @@ public class ScoreCalculator {
             }
             if (studyFailCheck && day.statFor(ActivityType.STUDY) < 2) {
                 studyFailure = true;
+            } else if (studyFailCheck && day.statFor(ActivityType.STUDY) >= 2) {
+                studyFailCheck = false;
             }
             if (day.statFor(ActivityType.STUDY) == 0 && !studyFailCheck) {
+                if (failedStudyOnce) {
+                    studyFailure = true;
+                }
+                failedStudyOnce = true;
                 studyFailCheck = true;
             }
         }
