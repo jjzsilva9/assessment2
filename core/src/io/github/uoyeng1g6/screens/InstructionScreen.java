@@ -11,12 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.uoyeng1g6.HeslingtonHustle;
-import io.github.uoyeng1g6.constants.ActivityType;
 import io.github.uoyeng1g6.constants.GameConstants;
-import io.github.uoyeng1g6.models.GameState;
-import io.github.uoyeng1g6.models.ScoreCalculator;
 import io.github.uoyeng1g6.utils.ChangeListener;
-import java.util.List;
 
 /**
  * The end screen of the game. Displays the player's score and the total number done of each activity.
@@ -50,9 +46,11 @@ public class InstructionScreen implements Screen {
 
         var inner = new Table(game.skin);
 
-        inner.add("Use the arrow keys (->) to move around, Press E to Interact with buildings").padBottom(20);
+        inner.add("Use the arrow keys (->) to move around, Press E to Interact with buildings")
+                .padBottom(20);
         inner.row();
-        inner.add("Study for your exams! Make sure to get in enough rest, sleep and food!").padBottom(20);
+        inner.add("Study for your exams! Make sure to get in enough rest, sleep and food!")
+                .padBottom(20);
         inner.row();
         inner.add("Avoid overdoing a type of activity").padBottom(20);
         inner.row();
