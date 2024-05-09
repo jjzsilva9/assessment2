@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class CounterComponent {
+    Label label
+    CounterValueResolver valueResolver
+}
+
+Counter *-- CounterComponent
+
+@enduml

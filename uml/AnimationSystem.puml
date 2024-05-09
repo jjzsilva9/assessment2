@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class AnimationComponent {
+    float spriteScale
+    IntMap<Animation<Sprite>> animations
+    int currentAnimation
+    float time
+}
+
+class FixtureComponent {
+    Fixture fixture
+}
+
+
+Player *-- FixtureComponent
+Player *-- AnimationComponent
+
+@enduml

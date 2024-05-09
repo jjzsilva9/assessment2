@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class HitboxComponent {
+    Rectangle[] rects
+    Rectangle region
+}
+
+class FixtureComponent {
+    Fixture fixture
+}
+
+Player *-- FixtureComponent
+Interactable *-- HitboxComponent
+@enduml
