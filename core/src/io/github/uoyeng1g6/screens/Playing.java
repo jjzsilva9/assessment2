@@ -5,10 +5,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -98,17 +99,22 @@ public class Playing implements Screen {
 
         var uiTop = new Table();
         uiTop.setFillParent(true);
+
         uiTop.setDebug(game.debug);
         stage.addActor(uiTop);
         uiTop.center().top();
 
+        Table uiTopTable = new Table();
+
         var daysLabel = new Label("Monday", labelStyle);
         daysLabel.setFontScale(0.17f);
-        uiTop.add(daysLabel);
-        uiTop.row();
+        uiTopTable.add(daysLabel);
+        uiTopTable.row();
         var timeLabel = new Label("07:00", labelStyle);
         timeLabel.setFontScale(0.17f);
-        uiTop.add(timeLabel);
+        uiTopTable.add(timeLabel);
+
+        uiTop.add(uiTopTable);
 
         var counters = new Table(game.skin);
         counters.setFillParent(true);
@@ -143,22 +149,31 @@ public class Playing implements Screen {
         var totalRecreationLabel = new Label("0", labelStyle);
         totalRecreationLabel.setFontScale(0.15f);
 
+        Table counterTable = new Table();
+
+        Drawable countersBackground = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+        countersBackground.setMinWidth(12);
+        countersBackground.setMinHeight(13);
+
+        counterTable.add(todayLabel).padRight(0.5f);
+        counterTable.add(totalLabel);
+        counterTable.row();
+        counterTable.add(studyImage).width(3).height(3).padRight(0.25f);
+        counterTable.add(dayStudyLabel);
+        counterTable.add(totalStudyLabel);
+        counterTable.row();
+        counterTable.add(eatImage).width(3).height(3).padRight(0.25f);
+        counterTable.add(dayEatLabel);
+        counterTable.add(totalEatLabel);
+        counterTable.row();
+        counterTable.add(recreationImage).width(3).height(3).padRight(0.25f);
+        counterTable.add(dayRecreationLabel);
+        counterTable.add(totalRecreationLabel);
+        counterTable.setBackground(countersBackground);
+
         counters.top().right();
         counters.add();
-        counters.add(todayLabel).padRight(0.5f);
-        counters.add(totalLabel);
-        counters.row();
-        counters.add(studyImage).width(3).height(3).padRight(0.25f);
-        counters.add(dayStudyLabel);
-        counters.add(totalStudyLabel);
-        counters.row();
-        counters.add(eatImage).width(3).height(3).padRight(0.25f);
-        counters.add(dayEatLabel);
-        counters.add(totalEatLabel);
-        counters.row();
-        counters.add(recreationImage).width(3).height(3).padRight(0.25f);
-        counters.add(dayRecreationLabel);
-        counters.add(totalRecreationLabel);
+        counters.add(counterTable);
 
         var energy = new Table(game.skin);
         energy.setFillParent(true);
@@ -166,15 +181,23 @@ public class Playing implements Screen {
         energy.setDebug(game.debug);
         stage.addActor(energy);
 
+        Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+        background.setMinWidth(20);
+        background.setMinHeight(0);
+
+        Table energyTable = new Table();
+
         var energyLabel = new Label("Energy Remaining:", labelStyle);
         energyLabel.setFontScale(0.125f);
         var energyAmount = new Label(String.valueOf(GameConstants.MAX_ENERGY), labelStyle);
         energyAmount.setFontScale(0.2f);
 
         energy.top().left();
-        energy.add(energyLabel);
-        energy.row();
-        energy.add(energyAmount);
+        energyTable.add(energyLabel);
+        energyTable.row();
+        energyTable.add(energyAmount);
+        energy.add(energyTable);
+        energyTable.setBackground(background);
 
         this.engine = new PooledEngine();
         this.gameState = new GameState();
