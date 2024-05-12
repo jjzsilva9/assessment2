@@ -74,6 +74,15 @@ public class PlayerNameInput implements Screen {
         stage.draw();
 
         String playerName = playerNameField.getText();
+        if (playerName.length() > 14) {
+            playerName = playerName.substring(0, 14);
+        }
+        playerName = playerName.replace(",", "");
+        if (!Objects.equals(playerNameField.getText(), playerName)) {
+            playerNameField.setText(playerName);
+            playerNameField.setCursorPosition(playerName.length());
+        }
+
         if (!Objects.equals(playerName, "")) {
             lm.saveName(playerName);
         }

@@ -101,8 +101,8 @@ public class LeaderboardManager {
     }
 
     public void saveName(String player) {
-        if (player.length() > 11) {
-            player = player.substring(0, 11);
+        if (player.length() > 14) {
+            player = player.substring(0, 14);
         }
         player = player.replace(",", "");
         currentPlayer = player;
