@@ -106,6 +106,10 @@ public class Playing implements Screen {
 
         Table uiTopTable = new Table();
 
+        Drawable daysBackground = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+        daysBackground.setMinWidth(18);
+        daysBackground.setMinHeight(6);
+
         var daysLabel = new Label("Monday", labelStyle);
         daysLabel.setFontScale(0.17f);
         uiTopTable.add(daysLabel);
@@ -113,6 +117,7 @@ public class Playing implements Screen {
         var timeLabel = new Label("07:00", labelStyle);
         timeLabel.setFontScale(0.17f);
         uiTopTable.add(timeLabel);
+        uiTopTable.setBackground(daysBackground);
 
         uiTop.add(uiTopTable);
 
@@ -217,7 +222,7 @@ public class Playing implements Screen {
                     private final Map<Integer, String> dayNameMap = Map.of(
                             7, "Monday", 6, "Tuesday", 5, "Wednesday",
                             4, "Thursday", 3, "Friday", 2, "Saturday",
-                            1, "Sunday - Exam Tomorrow"
+                            1, "Sunday"
                     );
                     // spotless:on
 
