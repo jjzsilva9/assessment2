@@ -360,7 +360,7 @@ public class Playing implements Screen {
         var popcornIcon = game.interactionIconsTextureAtlas.findRegion("popcorn_icon");
         var recreation = engine.createEntity()
                 .add(new TextureComponent(popcornIcon, iconSize).show())
-                .add(new PositionComponent(24, 60.5f))
+                .add(new PositionComponent(24, 55.5f))
                 .add(new HitboxComponent(new Rectangle(
                         24, 60.5f, popcornIcon.getRegionWidth() * iconSize, popcornIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
@@ -415,7 +415,7 @@ public class Playing implements Screen {
         var busIcon = game.interactionIconsTextureAtlas.findRegion("bus_icon");
         var town = engine.createEntity()
                 .add(new TextureComponent(busIcon, iconSize).show())
-                .add(new PositionComponent(17, 60.5f))
+                .add(new PositionComponent(17, 55.5f))
                 .add(new HitboxComponent(new Rectangle(
                         17, 60.5f, busIcon.getRegionWidth() * iconSize, busIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
