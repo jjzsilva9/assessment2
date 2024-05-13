@@ -92,7 +92,26 @@
     {
         name:sportsVillage,
         type:StaticBody,
-        position:{x:64,y:19},
+        position:{x:64,y:53},
         vertices:[{x:0,y:0},{x:0,y:7},{x:3,y:-2},{x:20,y:0},{x:17,y:-2},{x:20,y:7}]
+    },
+    {
+        name:energyBox,
+        type:StaticBody,
+        position:{x:1,y:63},
+        vertices:[{x:0,y:0},{x:0,y:7},{x:20,y:7},{x:20,y:0}]
+    },
+    {
+        name:dayBox,
+        type:StaticBody,
+        position:{x:35,y:63},
+        vertices:[{x:0,y:0},{x:0,y:13},{x:18,y:13},{x:18,y:0}]
+    }
+,
+    {
+        name:activityBox,
+        type:StaticBody,
+        position:{x:75,y:57},
+        vertices:[{x:0,y:0},{x:0,y:14},{x:18,y:14},{x:18,y:0}]
     }
 ]

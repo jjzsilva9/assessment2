@@ -362,7 +362,7 @@ public class Playing implements Screen {
                 .add(new TextureComponent(popcornIcon, iconSize).show())
                 .add(new PositionComponent(24, 55.5f))
                 .add(new HitboxComponent(new Rectangle(
-                        24, 60.5f, popcornIcon.getRegionWidth() * iconSize, popcornIcon.getRegionHeight() * iconSize)))
+                        24, 55.5f, popcornIcon.getRegionWidth() * iconSize, popcornIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
                     if (!state.doActivity(2, 14, ActivityType.RECREATION, "Watching films...", "movie")) {
                         // Notify insufficient time/energy
@@ -417,7 +417,7 @@ public class Playing implements Screen {
                 .add(new TextureComponent(busIcon, iconSize).show())
                 .add(new PositionComponent(17, 55.5f))
                 .add(new HitboxComponent(new Rectangle(
-                        17, 60.5f, busIcon.getRegionWidth() * iconSize, busIcon.getRegionHeight() * iconSize)))
+                        17, 55.5f, busIcon.getRegionWidth() * iconSize, busIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
                     if (!state.doActivity(1, 7, ActivityType.RECREATION, "Travelling...", "town")) {
                         // Notify insufficient time/energy
