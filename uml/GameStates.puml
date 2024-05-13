@@ -6,7 +6,8 @@
 Playing.MapExploration -> EndScreen.ScoreScreen
 
 state MainMenu {
-    [*] -> DisplayMenu
+    [*] --> DisplayMenu
+    DisplayMenu --> Instructions
     DisplayMenu --> Exit
     Exit -> [*]
 }
@@ -15,7 +16,7 @@ state Playing {
     MapExploration --> Interaction
     Interaction --> MapExploration
 }
-MainMenu.DisplayMenu -> Playing.MapExploration
+MainMenu.Instructions -> Playing.MapExploration
 state EndScreen {
     ScoreScreen --> PlayerNameInput
     PlayerNameInput --> Leaderboard
