@@ -46,7 +46,7 @@ public class InstructionScreen implements Screen {
 
         var inner = new Table(game.skin);
 
-        inner.add("Use WASD to move around, Press E to Interact with buildings")
+        inner.add("Use WASD or Arrow Keys to move around, Press E to Interact with buildings")
                 .padBottom(20);
         inner.row();
         inner.add("Study for your exams! Make sure to get in enough rest, sleep and food!")
