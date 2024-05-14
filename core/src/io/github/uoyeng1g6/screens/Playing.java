@@ -86,6 +86,9 @@ public class Playing implements Screen {
      */
     Box2DDebugRenderer debugRenderer = null;
 
+    Table energyTable = null;
+    Table dayTable = null;
+
     public Playing(HeslingtonHustle game) {
         this.game = game;
 
@@ -105,6 +108,7 @@ public class Playing implements Screen {
         uiTop.center().top();
 
         Table uiTopTable = new Table();
+        dayTable = uiTopTable;
 
         Drawable daysBackground = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
         daysBackground.setMinWidth(18);
@@ -190,7 +194,7 @@ public class Playing implements Screen {
         background.setMinWidth(20);
         background.setMinHeight(0);
 
-        Table energyTable = new Table();
+        energyTable = new Table();
 
         var energyLabel = new Label("Energy Remaining:", labelStyle);
         energyLabel.setFontScale(0.125f);
@@ -500,6 +504,46 @@ public class Playing implements Screen {
 
     @Override
     public void render(float delta) {
+        if (20 < gameState.energyRemaining) {
+            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+            background.setMinWidth(20);
+            background.setMinHeight(0);
+
+            energyTable.setBackground(background);
+        } else if (10 < gameState.energyRemaining && gameState.energyRemaining <= 20) {
+            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("backgroundEnergyMed.png")));
+            background.setMinWidth(20);
+            background.setMinHeight(0);
+
+            energyTable.setBackground(background);
+        } else if (gameState.energyRemaining <= 10) {
+            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("backgroundEnergyLow.png")));
+            background.setMinWidth(20);
+            background.setMinHeight(0);
+
+            energyTable.setBackground(background);
+        }
+
+        if (2 < gameState.hoursRemaining) {
+            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+            background.setMinWidth(18);
+            background.setMinHeight(6);
+
+            dayTable.setBackground(background);
+        } else if (gameState.hoursRemaining == 2) {
+            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("backgroundEnergyMed.png")));
+            background.setMinWidth(18);
+            background.setMinHeight(6);
+
+            dayTable.setBackground(background);
+        } else if (gameState.hoursRemaining <= 1) {
+            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("backgroundEnergyLow.png")));
+            background.setMinWidth(18);
+            background.setMinHeight(6);
+
+            dayTable.setBackground(background);
+        }
+
         // Allow the final interaction (day transition) to complete before showing the end screen
         if (gameState.daysRemaining == 0 && gameState.interactionOverlay == null) {
             game.setState(HeslingtonHustle.State.END_SCREEN);
