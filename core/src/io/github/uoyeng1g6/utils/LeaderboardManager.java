@@ -38,7 +38,7 @@ public class LeaderboardManager {
             file.createNewFile();
             Scanner scanner = new Scanner(file);
 
-            //Read through the text file, splitting on commas
+            // Read through the text file, splitting on commas
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] res = line.split(",");
@@ -47,11 +47,11 @@ public class LeaderboardManager {
                 entry.player = res[0];
                 entry.score = Integer.parseInt(res[1]);
 
-                //Store each entry in the list
+                // Store each entry in the list
                 leaderboard.add(entry);
             }
 
-            //Sort and then crop the leaderboard
+            // Sort and then crop the leaderboard
             sortLeaderboard();
             if (leaderboard.size() > 10) {
                 leaderboard.subList(9, leaderboard.size() - 1).clear();
@@ -61,14 +61,14 @@ public class LeaderboardManager {
         }
     }
 
-    //Sorts based on score, then alphabetically
+    // Sorts based on score, then alphabetically
     public void sortLeaderboard() {
         leaderboard.sort(new SortByScore().thenComparing(new SortByName()));
     }
 
     public String[][] getRanking() {
 
-        //Returns the ranking as a 2D string array
+        // Returns the ranking as a 2D string array
         String[][] stringRanking = new String[leaderboard.size()][2];
         for (int i = 0; i < leaderboard.size(); i++) {
             stringRanking[i][0] = leaderboard.get(i).player;
@@ -78,17 +78,17 @@ public class LeaderboardManager {
     }
 
     public String[][] addEntry(String playerName, int score) {
-        //Creates a new Ranking
+        // Creates a new Ranking
         Ranking newEntry = new Ranking();
         newEntry.player = playerName;
         newEntry.score = score;
 
-        //If the leaderboard is not full, add the entry
+        // If the leaderboard is not full, add the entry
         if (leaderboard.size() < 10) {
             leaderboard.add(newEntry);
             sortLeaderboard();
         } else {
-            //Otherwise, add the entry, then sort and remove the lowest element
+            // Otherwise, add the entry, then sort and remove the lowest element
             leaderboard.add(newEntry);
             sortLeaderboard();
             leaderboard.remove(10);
@@ -98,18 +98,18 @@ public class LeaderboardManager {
     }
 
     public String[][] addEntry(int score) {
-        //To create a new entry when the player name is already known
+        // To create a new entry when the player name is already known
         Ranking newEntry = new Ranking();
 
         newEntry.player = currentPlayer;
         newEntry.score = score;
 
-        //If the leaderboard is not full, add the entry
+        // If the leaderboard is not full, add the entry
         if (leaderboard.size() < 10) {
             leaderboard.add(newEntry);
             sortLeaderboard();
         } else {
-            //Otherwise, add the entry, then sort and remove the lowest element
+            // Otherwise, add the entry, then sort and remove the lowest element
             leaderboard.add(newEntry);
             sortLeaderboard();
             leaderboard.remove(10);
@@ -120,11 +120,11 @@ public class LeaderboardManager {
     }
 
     public void saveName(String player) {
-        //Check that the name is 13 characters or less
+        // Check that the name is 13 characters or less
         if (player.length() > 14) {
             player = player.substring(0, 14);
         }
-        //Remove commas
+        // Remove commas
         player = player.replace(",", "");
         currentPlayer = player;
     }

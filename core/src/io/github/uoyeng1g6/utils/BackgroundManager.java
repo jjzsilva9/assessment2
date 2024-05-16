@@ -23,8 +23,9 @@ public class BackgroundManager {
         this.energyTable = energy;
         this.dayTable = day;
     }
+
     public void updateBackgrounds(int energyRemaining, int hoursRemaining) {
-        //Check for energy levels:
+        // Check for energy levels:
         // Above 20: White background
         // 10-20: Orange background
         // 10-0: Red background
@@ -51,7 +52,7 @@ public class BackgroundManager {
             energyTable.setBackground(background);
         }
 
-        //Check for hours left:
+        // Check for hours left:
         // Above 2: White background
         // 2: Orange background
         // 1-0: Red background

@@ -52,7 +52,6 @@ import io.github.uoyeng1g6.systems.PlayerInteractionSystem;
 import io.github.uoyeng1g6.systems.StaticRenderingSystem;
 import io.github.uoyeng1g6.systems.TooltipRenderingSystem;
 import io.github.uoyeng1g6.utils.BackgroundManager;
-
 import java.util.Map;
 
 /**
@@ -508,11 +507,10 @@ public class Playing implements Screen {
                 .add(new FixtureComponent(initPlayerBody()));
     }
 
-
     @Override
     public void render(float delta) {
 
-        //Update the backgrounds of UI counters
+        // Update the backgrounds of UI counters
         bm.updateBackgrounds(gameState.energyRemaining, gameState.hoursRemaining);
 
         // Allow the final interaction (day transition) to complete before showing the end screen
