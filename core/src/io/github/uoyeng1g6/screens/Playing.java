@@ -51,6 +51,8 @@ import io.github.uoyeng1g6.systems.PlayerInputSystem;
 import io.github.uoyeng1g6.systems.PlayerInteractionSystem;
 import io.github.uoyeng1g6.systems.StaticRenderingSystem;
 import io.github.uoyeng1g6.systems.TooltipRenderingSystem;
+import io.github.uoyeng1g6.utils.BackgroundManager;
+
 import java.util.Map;
 
 /**
@@ -88,6 +90,8 @@ public class Playing implements Screen {
 
     Table energyTable = null;
     Table dayTable = null;
+
+    BackgroundManager bm;
 
     public Playing(HeslingtonHustle game) {
         this.game = game;
@@ -207,6 +211,8 @@ public class Playing implements Screen {
         energyTable.add(energyAmount);
         energy.add(energyTable);
         energyTable.setBackground(background);
+
+        bm = new BackgroundManager(energyTable, dayTable);
 
         this.engine = new PooledEngine();
         this.gameState = new GameState();
@@ -502,47 +508,12 @@ public class Playing implements Screen {
                 .add(new FixtureComponent(initPlayerBody()));
     }
 
+
     @Override
     public void render(float delta) {
-        if (20 < gameState.energyRemaining) {
-            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
-            background.setMinWidth(20);
-            background.setMinHeight(0);
 
-            energyTable.setBackground(background);
-        } else if (10 < gameState.energyRemaining && gameState.energyRemaining <= 20) {
-            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("backgroundEnergyMed.png")));
-            background.setMinWidth(20);
-            background.setMinHeight(0);
-
-            energyTable.setBackground(background);
-        } else if (gameState.energyRemaining <= 10) {
-            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("backgroundEnergyLow.png")));
-            background.setMinWidth(20);
-            background.setMinHeight(0);
-
-            energyTable.setBackground(background);
-        }
-
-        if (2 < gameState.hoursRemaining) {
-            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
-            background.setMinWidth(18);
-            background.setMinHeight(6);
-
-            dayTable.setBackground(background);
-        } else if (gameState.hoursRemaining == 2) {
-            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("backgroundEnergyMed.png")));
-            background.setMinWidth(18);
-            background.setMinHeight(6);
-
-            dayTable.setBackground(background);
-        } else if (gameState.hoursRemaining <= 1) {
-            Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("backgroundEnergyLow.png")));
-            background.setMinWidth(18);
-            background.setMinHeight(6);
-
-            dayTable.setBackground(background);
-        }
+        //Update the backgrounds of UI counters
+        bm.updateBackgrounds(gameState.energyRemaining, gameState.hoursRemaining);
 
         // Allow the final interaction (day transition) to complete before showing the end screen
         if (gameState.daysRemaining == 0 && gameState.interactionOverlay == null) {

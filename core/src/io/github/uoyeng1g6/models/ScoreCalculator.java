@@ -23,28 +23,35 @@ public class ScoreCalculator {
      * @return the computed score given the activity counts.
      */
     public static float getDayScore(int studyCount, int mealCount, int recreationCount) {
+        //Calculate study points
+        //Each hour of study is worth 10 points, up to 8 hours, after which it is reduced by 5
         var studyPoints = 0;
         for (int i = 1; i <= studyCount; i++) {
             studyPoints += i <= 8 ? 10 : -5;
         }
+        //If they do not study at all, a heavy penalty of -75 is incurred
         if (studyCount == 0) {
             studyPoints = -75;
         }
 
-        // Calculate meal multiplier
+        // Calculate meal points
+        //Each meal is worth 16 points, up to 3 meals, after which it is reduced by 5
         var mealPoints = 0;
         for (var i = 1; i <= mealCount; i++) {
             mealPoints += i <= 3 ? 16 : -5;
         }
+        //If they do not eat at all, a penalty of -50 is incurred
         if (mealCount == 0) {
             mealPoints = -50;
         }
 
         // Calculate recreation multiplier
+        //Each activity is worth 8 points, up to 5 activities, after which it is reduced by 4
         var recreationPoints = 0;
         for (var i = 1; i <= recreationCount; i++) {
             recreationPoints += i <= 5 ? 8 : 4;
         }
+        //If they do not relax at all, a penalty of -30 is incurred
         if (recreationPoints == 0) {
             recreationPoints = -30;
         }
@@ -61,36 +68,22 @@ public class ScoreCalculator {
      */
     public static int calculateExamScore(List<GameState.Day> days) {
         float totalScore = 0;
-        List<ActivityType[]> missedActivities = new ArrayList<ActivityType[]>();
-        int dayCount = 0;
+
+        //Calculate the score for each day, add to toal score
         for (var day : days) {
             int studyCount = day.statFor(ActivityType.STUDY);
             int mealCount = day.statFor(ActivityType.MEAL);
             int recreationCount = day.statFor(ActivityType.RECREATION);
 
-            ActivityType[] dayType = new ActivityType[3];
-            if (studyCount == 0) {
-                dayType[0] = ActivityType.STUDY;
-            }
-            if (mealCount == 0) {
-
-                dayType[1] = ActivityType.MEAL;
-            }
-            if (recreationCount == 0) {
-                dayType[2] = ActivityType.RECREATION;
-            }
-
             var dayScore = getDayScore(studyCount, mealCount, recreationCount);
             // Normalise day score between 0 and 100, round up to nearest whole number
             var normalisedDayScore = Math.ceil(((dayScore - MIN_DAY_SCORE) * 100) / (MAX_DAY_SCORE - MIN_DAY_SCORE));
-            System.out.println(normalisedDayScore);
-            System.out.println(dayScore);
-            System.out.println("---");
 
             // Increase total score
             totalScore += (float) (normalisedDayScore * (1 / 7f));
         }
 
+        //Add points for each achievement
         List<Boolean> achievements = calculateAchievements(days);
         boolean movieAchievement = achievements.get(0);
         boolean townAchievement = achievements.get(1);
@@ -108,6 +101,7 @@ public class ScoreCalculator {
             totalScore += 5;
         }
 
+        //Set total score to 0 if they fail on studying
         if (studyFailure) {
             totalScore = 0;
         }
@@ -117,9 +111,10 @@ public class ScoreCalculator {
         return examScore;
     }
 
+    //Get missed activities for each day
+    //Used in the EndScreen to display tips if they fail.
     public static List<ActivityType[]> calculateMissedDays(List<GameState.Day> days) {
         List<ActivityType[]> missedActivities = new ArrayList<ActivityType[]>();
-        int dayCount = 0;
         for (var day : days) {
             int studyCount = day.statFor(ActivityType.STUDY);
             int mealCount = day.statFor(ActivityType.MEAL);
@@ -137,7 +132,6 @@ public class ScoreCalculator {
                 dayType[2] = ActivityType.RECREATION;
             }
             missedActivities.add(dayType);
-            dayCount++;
         }
         return missedActivities;
     }
@@ -164,6 +158,7 @@ public class ScoreCalculator {
         // Val for when they have failed due to missing a day and not catching up the next day
         boolean studyFailure = false;
 
+        //Various checks throughout the days to set achievements
         for (var day : days) {
 
             if (day.statForName("movie") >= 3 && !movieAchievement) {

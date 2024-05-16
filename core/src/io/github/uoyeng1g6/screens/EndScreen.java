@@ -71,8 +71,12 @@ public class EndScreen implements Screen {
             inner.add("You missed a day of study and didn't catch up the next day :(");
             inner.row();
         } else if (examScore < 40) {
+            //If they fail due to a low score, display tips
+
             inner.add("Failed").padBottom(20);
             inner.row();
+
+            //For each day they miss an activity, display what activity they missed
             String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
             int dayCount = 0;
             boolean missedActivity = false;
@@ -112,6 +116,7 @@ public class EndScreen implements Screen {
                 inner.row();
             }
         } else {
+            //If they did not fail, display the achievements section instead
             inner.add("Achievements").padBottom(20);
             inner.row();
             if (achievements.get(0)) {
