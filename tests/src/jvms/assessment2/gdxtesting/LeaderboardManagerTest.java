@@ -196,8 +196,12 @@ public class LeaderboardManagerTest {
     @Test
     public void testLeaderboardNameValidation() {
         LeaderboardManager lm = new LeaderboardManager("test.txt");
-        lm.saveName("toolongnamenow");
+        lm.saveName("toolongnameactuallynow");
 
-        assertEquals("Name should be trimmed to 11 characters", "toolongname", lm.getName());
+        assertEquals("Name should be trimmed to 14 characters", "toolongnameact", lm.getName());
+
+        lm.saveName("commas,commas");
+
+        assertEquals("Commas should be removed", "commascommas", lm.getName());
     }
 }

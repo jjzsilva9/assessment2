@@ -39,9 +39,12 @@ public class Leaderboard implements Screen {
 
         var inner = new Table(game.skin);
 
+        // If they have just finished playing, add their score
         if (score >= 0) {
             lm.addEntry(score);
         }
+
+        // Display the leaderboard from lm
         String[][] rankings = lm.getRanking();
         var leaderboard = new Table(game.skin);
         leaderboard.add("Rank").padRight(20);

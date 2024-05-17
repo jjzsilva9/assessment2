@@ -1,12 +1,13 @@
 package io.github.uoyeng1g6.models;
 
 import io.github.uoyeng1g6.constants.ActivityType;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ScoreCalculator {
 
-    private static final float MAX_DAY_SCORE = 105.125f;
+    private static final float MAX_DAY_SCORE = 168f;
     /**
      * Theoretical minimum day score. Allows normalising to range 0-100.
      */
@@ -22,28 +23,41 @@ public class ScoreCalculator {
      * @return the computed score given the activity counts.
      */
     public static float getDayScore(int studyCount, int mealCount, int recreationCount) {
+        // Calculate study points
+        // Each hour of study is worth 10 points, up to 8 hours, after which it is reduced by 5
         var studyPoints = 0;
         for (int i = 1; i <= studyCount; i++) {
             studyPoints += i <= 8 ? 10 : -5;
         }
-        studyPoints = Math.max(0, studyPoints);
-
-        // Calculate meal multiplier
-        float mealMultiplier = 1;
-        for (var i = 1; i <= mealCount; i++) {
-            mealMultiplier += i <= 3 ? 0.15f : -0.025f;
+        // If they do not study at all, a heavy penalty of -75 is incurred
+        if (studyCount == 0) {
+            studyPoints = -75;
         }
-        mealMultiplier = Math.max(1, mealMultiplier);
+
+        // Calculate meal points
+        // Each meal is worth 16 points, up to 3 meals, after which it is reduced by 5
+        var mealPoints = 0;
+        for (var i = 1; i <= mealCount; i++) {
+            mealPoints += i <= 3 ? 16 : -5;
+        }
+        // If they do not eat at all, a penalty of -50 is incurred
+        if (mealCount == 0) {
+            mealPoints = -50;
+        }
 
         // Calculate recreation multiplier
-        float recreationMultiplier = 1;
+        // Each activity is worth 8 points, up to 5 activities, after which it is reduced by 4
+        var recreationPoints = 0;
         for (var i = 1; i <= recreationCount; i++) {
-            recreationMultiplier += i <= 5 ? 0.15f : -0.025f;
+            recreationPoints += i <= 5 ? 8 : 4;
         }
-        recreationMultiplier = Math.max(1, recreationMultiplier);
+        // If they do not relax at all, a penalty of -30 is incurred
+        if (recreationPoints == 0) {
+            recreationPoints = -30;
+        }
 
         // Calculate day score
-        return studyPoints * mealMultiplier * recreationMultiplier;
+        return studyPoints + mealPoints + recreationPoints;
     }
 
     /**
@@ -55,6 +69,7 @@ public class ScoreCalculator {
     public static int calculateExamScore(List<GameState.Day> days) {
         float totalScore = 0;
 
+        // Calculate the score for each day, add to toal score
         for (var day : days) {
             int studyCount = day.statFor(ActivityType.STUDY);
             int mealCount = day.statFor(ActivityType.MEAL);
@@ -68,6 +83,7 @@ public class ScoreCalculator {
             totalScore += (float) (normalisedDayScore * (1 / 7f));
         }
 
+        // Add points for each achievement
         List<Boolean> achievements = calculateAchievements(days);
         boolean movieAchievement = achievements.get(0);
         boolean townAchievement = achievements.get(1);
@@ -85,6 +101,7 @@ public class ScoreCalculator {
             totalScore += 5;
         }
 
+        // Set total score to 0 if they fail on studying
         if (studyFailure) {
             totalScore = 0;
         }
@@ -92,6 +109,31 @@ public class ScoreCalculator {
         // Clamp total score from 0-100
         int examScore = Math.round(Math.min(100, Math.max(0, totalScore)));
         return examScore;
+    }
+
+    // Get missed activities for each day
+    // Used in the EndScreen to display tips if they fail.
+    public static List<ActivityType[]> calculateMissedDays(List<GameState.Day> days) {
+        List<ActivityType[]> missedActivities = new ArrayList<ActivityType[]>();
+        for (var day : days) {
+            int studyCount = day.statFor(ActivityType.STUDY);
+            int mealCount = day.statFor(ActivityType.MEAL);
+            int recreationCount = day.statFor(ActivityType.RECREATION);
+
+            ActivityType[] dayType = new ActivityType[3];
+            if (studyCount == 0) {
+                dayType[0] = ActivityType.STUDY;
+            }
+            if (mealCount == 0) {
+
+                dayType[1] = ActivityType.MEAL;
+            }
+            if (recreationCount == 0) {
+                dayType[2] = ActivityType.RECREATION;
+            }
+            missedActivities.add(dayType);
+        }
+        return missedActivities;
     }
 
     public static List<Boolean> calculateAchievements(List<GameState.Day> days) {
@@ -106,9 +148,17 @@ public class ScoreCalculator {
         boolean sportAchievement = true;
 
         // Failure : You missed a day of study without catching up
+
+        // Val for ensuring catchup can only happen once
+        boolean failedStudyOnce = false;
+
+        // Val for when they have missed one day of study but not 2 (and not caught up yet)
         boolean studyFailCheck = false;
+
+        // Val for when they have failed due to missing a day and not catching up the next day
         boolean studyFailure = false;
 
+        // Various checks throughout the days to set achievements
         for (var day : days) {
 
             if (day.statForName("movie") >= 3 && !movieAchievement) {
@@ -122,8 +172,14 @@ public class ScoreCalculator {
             }
             if (studyFailCheck && day.statFor(ActivityType.STUDY) < 2) {
                 studyFailure = true;
+            } else if (studyFailCheck && day.statFor(ActivityType.STUDY) >= 2) {
+                studyFailCheck = false;
             }
             if (day.statFor(ActivityType.STUDY) == 0 && !studyFailCheck) {
+                if (failedStudyOnce) {
+                    studyFailure = true;
+                }
+                failedStudyOnce = true;
                 studyFailCheck = true;
             }
         }

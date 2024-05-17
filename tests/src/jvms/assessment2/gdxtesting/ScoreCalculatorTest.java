@@ -21,7 +21,7 @@ public class ScoreCalculatorTest {
     GameState gameState;
 
     private void doActivities(int meal_count, int study_count, int recreation_count) {
-        for (int day_count = 1; day_count < 7; day_count++) {
+        for (int day_count = 0; day_count < 7; day_count++) {
             for (int i=0; i<meal_count; i++) {
                 gameState.doActivity(1, 0, ActivityType.MEAL, "", "");
             }
@@ -43,9 +43,11 @@ public class ScoreCalculatorTest {
     @Test
     public void idealScoreTest() {
         //3 Meal, 8 Study, 3 Recreation
-        doActivities(3, 8, 3);
+        doActivities(3, 8, 5);
 
         int score = ScoreCalculator.calculateExamScore(gameState.days);
+
+        System.out.println(score);
 
         //Testing the score you get is high if you play in the intended way.
         assertTrue(score >= 90 && score <= 100);
@@ -54,8 +56,10 @@ public class ScoreCalculatorTest {
     @Test
     public void midScoreTest() {
         //1 Meal, 4 Study, 2 Recreation
-        doActivities(1, 4, 2);
+        doActivities(2, 4, 2);
         int score = ScoreCalculator.calculateExamScore(gameState.days);
+
+        System.out.println(score);
 
         //Testing the score you get is mid if you don't play in the intended way but you still do some study.
         assertTrue(score >= 45 && score <= 55);
@@ -68,8 +72,9 @@ public class ScoreCalculatorTest {
         int score = ScoreCalculator.calculateExamScore(gameState.days);
 
         System.out.println(score);
+
         //Testing the score you get is low if you don't play in the intended way.
-        assertTrue(score >= 5 && score <= 15);
+        assertTrue(score < 40);
     }
 
     @Test

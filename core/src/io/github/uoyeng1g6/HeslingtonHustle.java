@@ -30,6 +30,10 @@ public class HeslingtonHustle extends Game {
          */
         MAIN_MENU,
         /**
+         * The game is currently on the instruction screen.
+         */
+        INSTRUCTION_SCREEN,
+        /**
          * The game is currently being played.
          */
         PLAYING,
@@ -108,6 +112,10 @@ public class HeslingtonHustle extends Game {
      */
     MainMenu mainMenu;
     /**
+     * The instruction screen instance.
+     */
+    InstructionScreen instructionScreen;
+    /**
      * The gameplay screen instance. A new one is required to be created each time the
      * player starts a new game.
      */
@@ -160,6 +168,13 @@ public class HeslingtonHustle extends Game {
                 }
                 mainMenu = new MainMenu(this);
                 this.setScreen(mainMenu);
+                break;
+            case INSTRUCTION_SCREEN:
+                if (instructionScreen != null) {
+                    instructionScreen.dispose();
+                }
+                instructionScreen = new InstructionScreen(this);
+                this.setScreen(instructionScreen);
                 break;
             case PLAYING:
                 if (playing != null) {

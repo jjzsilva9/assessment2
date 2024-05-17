@@ -5,10 +5,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -50,6 +51,7 @@ import io.github.uoyeng1g6.systems.PlayerInputSystem;
 import io.github.uoyeng1g6.systems.PlayerInteractionSystem;
 import io.github.uoyeng1g6.systems.StaticRenderingSystem;
 import io.github.uoyeng1g6.systems.TooltipRenderingSystem;
+import io.github.uoyeng1g6.utils.BackgroundManager;
 import java.util.Map;
 
 /**
@@ -85,6 +87,11 @@ public class Playing implements Screen {
      */
     Box2DDebugRenderer debugRenderer = null;
 
+    Table energyTable = null;
+    Table dayTable = null;
+
+    BackgroundManager bm;
+
     public Playing(HeslingtonHustle game) {
         this.game = game;
 
@@ -98,17 +105,28 @@ public class Playing implements Screen {
 
         var uiTop = new Table();
         uiTop.setFillParent(true);
+
         uiTop.setDebug(game.debug);
         stage.addActor(uiTop);
         uiTop.center().top();
 
+        Table uiTopTable = new Table();
+        dayTable = uiTopTable;
+
+        Drawable daysBackground = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+        daysBackground.setMinWidth(18);
+        daysBackground.setMinHeight(6);
+
         var daysLabel = new Label("Monday", labelStyle);
         daysLabel.setFontScale(0.17f);
-        uiTop.add(daysLabel);
-        uiTop.row();
+        uiTopTable.add(daysLabel);
+        uiTopTable.row();
         var timeLabel = new Label("07:00", labelStyle);
         timeLabel.setFontScale(0.17f);
-        uiTop.add(timeLabel);
+        uiTopTable.add(timeLabel);
+        uiTopTable.setBackground(daysBackground);
+
+        uiTop.add(uiTopTable);
 
         var counters = new Table(game.skin);
         counters.setFillParent(true);
@@ -143,22 +161,31 @@ public class Playing implements Screen {
         var totalRecreationLabel = new Label("0", labelStyle);
         totalRecreationLabel.setFontScale(0.15f);
 
+        Table counterTable = new Table();
+
+        Drawable countersBackground = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+        countersBackground.setMinWidth(12);
+        countersBackground.setMinHeight(13);
+
+        counterTable.add(todayLabel).padRight(0.5f);
+        counterTable.add(totalLabel);
+        counterTable.row();
+        counterTable.add(studyImage).width(3).height(3).padRight(0.25f);
+        counterTable.add(dayStudyLabel);
+        counterTable.add(totalStudyLabel);
+        counterTable.row();
+        counterTable.add(eatImage).width(3).height(3).padRight(0.25f);
+        counterTable.add(dayEatLabel);
+        counterTable.add(totalEatLabel);
+        counterTable.row();
+        counterTable.add(recreationImage).width(3).height(3).padRight(0.25f);
+        counterTable.add(dayRecreationLabel);
+        counterTable.add(totalRecreationLabel);
+        counterTable.setBackground(countersBackground);
+
         counters.top().right();
         counters.add();
-        counters.add(todayLabel).padRight(0.5f);
-        counters.add(totalLabel);
-        counters.row();
-        counters.add(studyImage).width(3).height(3).padRight(0.25f);
-        counters.add(dayStudyLabel);
-        counters.add(totalStudyLabel);
-        counters.row();
-        counters.add(eatImage).width(3).height(3).padRight(0.25f);
-        counters.add(dayEatLabel);
-        counters.add(totalEatLabel);
-        counters.row();
-        counters.add(recreationImage).width(3).height(3).padRight(0.25f);
-        counters.add(dayRecreationLabel);
-        counters.add(totalRecreationLabel);
+        counters.add(counterTable);
 
         var energy = new Table(game.skin);
         energy.setFillParent(true);
@@ -166,15 +193,25 @@ public class Playing implements Screen {
         energy.setDebug(game.debug);
         stage.addActor(energy);
 
+        Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+        background.setMinWidth(20);
+        background.setMinHeight(0);
+
+        energyTable = new Table();
+
         var energyLabel = new Label("Energy Remaining:", labelStyle);
-        energyLabel.setFontScale(0.08f);
+        energyLabel.setFontScale(0.125f);
         var energyAmount = new Label(String.valueOf(GameConstants.MAX_ENERGY), labelStyle);
-        energyAmount.setFontScale(0.15f);
+        energyAmount.setFontScale(0.2f);
 
         energy.top().left();
-        energy.add(energyLabel);
-        energy.row();
-        energy.add(energyAmount);
+        energyTable.add(energyLabel);
+        energyTable.row();
+        energyTable.add(energyAmount);
+        energy.add(energyTable);
+        energyTable.setBackground(background);
+
+        bm = new BackgroundManager(energyTable, dayTable);
 
         this.engine = new PooledEngine();
         this.gameState = new GameState();
@@ -194,7 +231,7 @@ public class Playing implements Screen {
                     private final Map<Integer, String> dayNameMap = Map.of(
                             7, "Monday", 6, "Tuesday", 5, "Wednesday",
                             4, "Thursday", 3, "Friday", 2, "Saturday",
-                            1, "Sunday - Exam Tomorrow"
+                            1, "Sunday"
                     );
                     // spotless:on
 
@@ -231,7 +268,7 @@ public class Playing implements Screen {
                         state -> String.valueOf(state.getTotalActivityCount(ActivityType.RECREATION)))));
 
         engine.addEntity(engine.createEntity()
-                .add(new CounterComponent(energyAmount, state -> String.valueOf(state.energyRemaining))));
+                .add(new CounterComponent(energyAmount, state -> String.valueOf(state.energyRemaining) + "%")));
 
         engine.addSystem(new PlayerInputSystem(gameState));
         engine.addSystem(new PlayerInteractionSystem(gameState));
@@ -332,9 +369,9 @@ public class Playing implements Screen {
         var popcornIcon = game.interactionIconsTextureAtlas.findRegion("popcorn_icon");
         var recreation = engine.createEntity()
                 .add(new TextureComponent(popcornIcon, iconSize).show())
-                .add(new PositionComponent(19, 60.5f))
+                .add(new PositionComponent(24, 55.5f))
                 .add(new HitboxComponent(new Rectangle(
-                        19, 60.5f, popcornIcon.getRegionWidth() * iconSize, popcornIcon.getRegionHeight() * iconSize)))
+                        24, 55.5f, popcornIcon.getRegionWidth() * iconSize, popcornIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
                     if (!state.doActivity(2, 14, ActivityType.RECREATION, "Watching films...", "movie")) {
                         // Notify insufficient time/energy
@@ -345,10 +382,10 @@ public class Playing implements Screen {
         var footballIcon = game.interactionIconsTextureAtlas.findRegion("football_icon");
         var sports = engine.createEntity()
                 .add(new TextureComponent(footballIcon, iconSize).show())
-                .add(new PositionComponent(65.5f, 57.5f))
+                .add(new PositionComponent(71.5f, 47))
                 .add(new HitboxComponent(new Rectangle(
-                        65.5f,
-                        57.5f,
+                        71.5f,
+                        47,
                         footballIcon.getRegionWidth() * iconSize,
                         footballIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
@@ -387,9 +424,9 @@ public class Playing implements Screen {
         var busIcon = game.interactionIconsTextureAtlas.findRegion("bus_icon");
         var town = engine.createEntity()
                 .add(new TextureComponent(busIcon, iconSize).show())
-                .add(new PositionComponent(12, 60.5f))
+                .add(new PositionComponent(17, 55.5f))
                 .add(new HitboxComponent(new Rectangle(
-                        12, 60.5f, busIcon.getRegionWidth() * iconSize, busIcon.getRegionHeight() * iconSize)))
+                        17, 55.5f, busIcon.getRegionWidth() * iconSize, busIcon.getRegionHeight() * iconSize)))
                 .add(new InteractionComponent(state -> {
                     if (!state.doActivity(1, 7, ActivityType.RECREATION, "Travelling...", "town")) {
                         // Notify insufficient time/energy
@@ -472,6 +509,10 @@ public class Playing implements Screen {
 
     @Override
     public void render(float delta) {
+
+        // Update the backgrounds of UI counters
+        bm.updateBackgrounds(gameState.energyRemaining, gameState.hoursRemaining);
+
         // Allow the final interaction (day transition) to complete before showing the end screen
         if (gameState.daysRemaining == 0 && gameState.interactionOverlay == null) {
             game.setState(HeslingtonHustle.State.END_SCREEN);

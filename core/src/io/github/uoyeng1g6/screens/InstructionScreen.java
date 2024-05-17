@@ -2,6 +2,7 @@ package io.github.uoyeng1g6.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -14,16 +15,20 @@ import io.github.uoyeng1g6.constants.GameConstants;
 import io.github.uoyeng1g6.utils.ChangeListener;
 
 /**
- * The main menu screen for the game. Allows the player to start a new game, or quit to desktop.
+ * The end screen of the game. Displays the player's score and the total number done of each activity.
  */
-public class MainMenu implements Screen {
+public class InstructionScreen implements Screen {
+
+    Camera camera;
     /**
      * The {@code scene2d.ui} stage used to render this screen.
      */
     Stage stage;
 
-    public MainMenu(HeslingtonHustle game) {
-        var camera = new OrthographicCamera();
+    int examScore;
+
+    public InstructionScreen(HeslingtonHustle game) {
+        camera = new OrthographicCamera();
         var viewport = new FitViewport(GameConstants.WORLD_WIDTH * 10, GameConstants.WORLD_HEIGHT * 10, camera);
 
         stage = new Stage(viewport);
@@ -36,36 +41,34 @@ public class MainMenu implements Screen {
         root.setDebug(game.debug);
         stage.addActor(root);
 
-        root.add("Heslington Hustle").getActor().setFontScale(2);
+        root.add("Instructions").getActor().setFontScale(2);
         root.row();
 
         var inner = new Table(game.skin);
 
-        var startButton = new TextButton("Start Game", game.skin);
-        startButton.addListener(ChangeListener.of((e, a) -> game.setState(HeslingtonHustle.State.INSTRUCTION_SCREEN)));
-        inner.add(startButton).pad(10).width(Value.percentWidth(0.4f, inner)).height(Value.percentHeight(0.1f, inner));
-
+        inner.add("Use WASD or Arrow Keys to move around, Press E to Interact with buildings")
+                .padBottom(20);
+        inner.row();
+        inner.add("Study for your exams! Make sure to get in enough rest, sleep and food!")
+                .padBottom(20);
+        inner.row();
+        inner.add("Avoid overdoing a type of activity").padBottom(20);
         inner.row();
 
-        var leaderboardButton = new TextButton("Leaderboard", game.skin);
-        leaderboardButton.addListener(
-                ChangeListener.of((e, a) -> game.setState(HeslingtonHustle.State.MAIN_TO_LEADERBOARD)));
-        inner.add(leaderboardButton)
-                .pad(10)
+        var nextButton = new TextButton("Play!", game.skin);
+        nextButton.addListener(ChangeListener.of((e, a) -> game.setState(HeslingtonHustle.State.PLAYING)));
+        inner.add(nextButton)
+                .padTop(50)
                 .width(Value.percentWidth(0.4f, inner))
                 .height(Value.percentHeight(0.1f, inner));
 
         inner.row();
 
-        var quitButton = new TextButton("Quit", game.skin);
-        quitButton.addListener(ChangeListener.of((e, a) -> game.quit()));
-        inner.add(quitButton).pad(10).width(Value.percentWidth(0.4f, inner)).height(Value.percentHeight(0.1f, inner));
-
         root.add(inner).grow();
     }
 
     @Override
-    public void render(float v) {
+    public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
 
         stage.act();
@@ -73,14 +76,12 @@ public class MainMenu implements Screen {
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
+
+    @Override
+    public void show() {}
 
     @Override
     public void pause() {}
