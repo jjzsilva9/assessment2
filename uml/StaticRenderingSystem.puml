@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class PositionComponent {
+    float x
+    float y
+}
+
+class InteractionComponent{
+    Interactable interactable
+}
+
+Interactable *-- InteractionComponent
+Interactable *-- PositionComponent
+
+@enduml

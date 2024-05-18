@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+[*] -> MainMenu
+
+Playing.MapExploration -> EndScreen.ScoreScreen
+
+state MainMenu {
+    [*] --> DisplayMenu
+    DisplayMenu --> Instructions
+    DisplayMenu --> Exit
+    Exit -> [*]
+}
+
+state Playing {
+    MapExploration --> Interaction
+    Interaction --> MapExploration
+}
+MainMenu.Instructions -> Playing.MapExploration
+state EndScreen {
+    ScoreScreen --> PlayerNameInput
+    PlayerNameInput --> Leaderboard
+    Leaderboard -> EndScreen.Exit
+    EndScreen.Exit -> [*]
+}
+MainMenu.DisplayMenu -> EndScreen.Leaderboard
+EndScreen.Leaderboard -> MainMenu.DisplayMenu
+@enduml
